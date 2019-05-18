@@ -12,8 +12,10 @@ var window_height = canvas.height;
 
 // Models //
 
-var background_80s = "assets/img/background.png";
+var background_80s = "assets/img/background_80s.png";
 var background_desert = "assets/img/background_desert.png";
+var background_future = "assets/img/background_future.png";
+
 var delorean_car_image = "assets/img/delorean_car.png";
 var delorean_plane_image = "assets/img/delorean_plane.png";
 
@@ -29,6 +31,17 @@ var delorean = new Image();
 delorean.src = delorean_car_image;
 
 // /////////// //
+
+
+// Data Variables //
+
+var time_background_array = [
+	{ time: "80s", src: background_80s},
+	{ time: "Desert", src: background_desert},
+	{ time: "Future", src: background_future}
+];
+
+// //// ///////// //
 
 
 // Game Variables //
@@ -126,13 +139,7 @@ function checkIsEngineReady() {
 }
 
 function changeTime() {
-	if (time == "80s") {
-		background.src = background_desert;
-		time = "Desert"
-	} else {
-		background.src = background_80s;
-		time = "80s"
-	}
+	background.src = getRandomLocation();
 	
 	isReadyTeleport = false;
 	car_speed = 2;
@@ -178,12 +185,37 @@ function changeSpeed(increase) {
 	}
 }
 
+function getRandomLocation() {
+	var randomTimeValue = 0;
+	do {
+		randomTimeValue = Math.floor(Math.random() * (time_background_array.length - 0) + 0);
+	} while (time == time_background_array[randomTimeValue].time);
+	time = time_background_array[randomTimeValue].time;
+	return time_background_array[randomTimeValue].src;
+}
+
 
 
 // ///////// //
 
+	/*if (time == "80s") {
+		background.src = background_desert;
+		time = "Desert"
+	} else {
+		background.src = background_80s;
+		time = "80s"
+	}*/
 
+//time = time_background_array.keys(randomTimeValue);
+
+//alert(randomTimeValue + ": " + background.src + " " + time_background_array[randomTimeValue]);
 /*pancake_posX = Math.random() * (window_width - 0) + 0;
 	pancake_posY = Math.random() * (window_height - 0) + 0;
 	console.log("Cake: " + pancake_posX + ";" + pancake_posY);
 	context.drawImage(pancake, pancake_posX, pancake_posY);*/
+
+	/*var time_background_array = [
+	background_80s,
+	background_desert,
+	background_future
+];*/
