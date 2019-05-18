@@ -19,6 +19,11 @@ var background_future = "assets/img/background_future.png";
 var delorean_car_image = "assets/img/delorean_car.png";
 var delorean_plane_image = "assets/img/delorean_plane.png";
 
+
+var soundtrack_80s = "assets/audio/soundtrack_80s.mp3";
+var soundtrack_desert = "assets/audio/soundtrack_desert.mp3";
+var soundtrack_future = "assets/audio/soundtrack_future.mp3";
+
 // ////// //
 
 
@@ -29,6 +34,9 @@ background.src = background_80s;
 
 var delorean = new Image();
 delorean.src = delorean_car_image;
+
+var soundtrack = new Audio();
+soundtrack.src = soundtrack_80s;
 
 // /////////// //
 
@@ -48,6 +56,7 @@ var time_background_array = [
 
 var block_size = 2;
 var ground = 304
+var ws_incrementor = 0.04;
 
 var time = "80s";
 
@@ -55,6 +64,7 @@ var player_posX = 200;
 var player_posY = ground;
 var car_speed = 0;
 var score = 0;
+var score_dv = 0;
 
 var background_posX = 0;
 var world_speed = 0;
@@ -74,7 +84,8 @@ var isReadyTeleport = false;
 
 delorean.onload = draw;
 addEventListener("keydown", isKeyboardKeyPressed);
-setInterval(world_animation, 50);
+setInterval(world_animation, 1);
+soundtrack.play();
 
 // ////////// //
 
@@ -126,7 +137,7 @@ function draw() {
 	}
 
 	// Debugging // 
-	console.log(player_posX + ";" + player_posY);
+	//console.log(player_posX + ";" + player_posY);
 }
 
 function world_animation() {
@@ -151,7 +162,7 @@ function changeTime() {
 	
 	isReadyTeleport = false;
 	car_speed = 2;
-	world_speed = 1;
+	world_speed = ws_incrementor * 2;
 	player_posX = 200;
 
 	checkIsEngineReady();
@@ -183,13 +194,15 @@ function changeSpeed(increase) {
 		if (player_posX + block_size <= window_width - delorean.width && car_speed <= 109) {
 			player_posX += block_size;
 			car_speed += 1;
-			world_speed += 0.5;
+			world_speed += ws_incrementor;
 		}
 	} else {
 		if (player_posX - block_size >= 0 && car_speed > 0) {
 			player_posX -= block_size;
 			car_speed -= 1;
-			world_speed -= 0.5;
+			if (world_speed != 0) {
+				world_speed -= ws_incrementor;
+			}
 		}
 	}
 }
@@ -205,11 +218,21 @@ function getRandomLocation() {
 }
 
 function addScore(count) {
+
 	if (count == 0) {
-		score += Math.floor(car_speed / 10);
+		score_dv += car_speed / 1000;
 	} else {
 		score += count;
 	}
+
+	if (score_dv > 1) {
+		score += Math.floor(score_dv);
+		score_dv = 0;
+	}
+}
+
+function getAllAchievements() {
+	alert("No, you can't.");
 }
 
 
@@ -237,3 +260,10 @@ function addScore(count) {
 	background_desert,
 	background_future
 ];*/
+
+
+/*
+ Previous Version
+ FPS: 50ms
+ world_speed: 0.5
+*/
