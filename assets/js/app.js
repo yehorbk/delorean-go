@@ -54,12 +54,15 @@ var time = "80s";
 var player_posX = 200;
 var player_posY = ground;
 var car_speed = 0;
+var score = 0;
 
 var background_posX = 0;
 var world_speed = 0;
 
 var speed_count = document.getElementById("speed_count");
 var engine_ready = document.getElementById("engine_ready");
+var score_count = document.getElementById("score_count");
+var time_location = document.getElementById("time_location");
 
 var isCar = true;
 var isReadyTeleport = false;
@@ -107,11 +110,16 @@ function isKeyboardKeyPressed(e) {
 }
 
 function draw() {
+
+	addScore(0);
+
 	context.clearRect(0, 0, canvas.width, canvas.height);
 	context.drawImage(background, background_posX, 0);
 	context.drawImage(background, background_posX + background.width, 0);
 	context.drawImage(delorean, player_posX, player_posY);
+
 	speed_count.textContent = "Speed: " + car_speed;
+	score_count.textContent = "Score: " + score;
 
 	if (background_posX < background.width * -1) {
 		background_posX = 0;
@@ -147,6 +155,7 @@ function changeTime() {
 	player_posX = 200;
 
 	checkIsEngineReady();
+	addScore(1000);
 }
 
 function delorean_move(direction) {
@@ -191,7 +200,16 @@ function getRandomLocation() {
 		randomTimeValue = Math.floor(Math.random() * (time_background_array.length - 0) + 0);
 	} while (time == time_background_array[randomTimeValue].time);
 	time = time_background_array[randomTimeValue].time;
+	time_location.textContent = "Location: " + time;
 	return time_background_array[randomTimeValue].src;
+}
+
+function addScore(count) {
+	if (count == 0) {
+		score += Math.floor(car_speed / 10);
+	} else {
+		score += count;
+	}
 }
 
 
