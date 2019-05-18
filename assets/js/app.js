@@ -71,13 +71,13 @@ function isKeyboardKeyPressed(e) {
 			changeSpeed(false);
 			break;
 		case 38:
-			changeSpeed(true);
+			delorean_move(true);
 			break;
 		case 39:
 			changeSpeed(true);
 			break;
 		case 40:
-			changeSpeed(false);
+			delorean_move(false);
 			break;
 		case 32:
 			if (isReadyTeleport) {
