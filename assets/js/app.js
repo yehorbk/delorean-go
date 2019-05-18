@@ -1,19 +1,37 @@
+
+// Application Variables //
+
 var canvas = document.getElementById("canvas");
 var context = canvas.getContext("2d");
 
 var window_width = canvas.width;
 var window_height = canvas.height; 
 
-var background = new Image();
+// /////////// ///////// //
+
+
+// Models //
+
 var background_80s = "assets/img/background.png";
 var background_desert = "assets/img/background_desert.png";
-background.src = background_80s;
-
-
-var delorean = new Image();
 var delorean_car_image = "assets/img/delorean_car.png";
 var delorean_plane_image = "assets/img/delorean_plane.png";
+
+// ////// //
+
+
+// Environment //
+
+var background = new Image();
+background.src = background_80s;
+
+var delorean = new Image();
 delorean.src = delorean_car_image;
+
+// /////////// //
+
+
+// Game Variables //
 
 var time = "80s";
 
@@ -25,25 +43,26 @@ var background_posX = 0;
 var world_speed = 1;
 
 var speed_count = document.getElementById("speed_count");
-
 var engine_ready = document.getElementById("engine_ready");
-/*var delorean_car = new Image();
-delorean_car.src = "delorean_car.png";
-
-var delorean_plane = new Image();
-delorean_plane.src = "delorean_plane.png";*/
-
-
 
 var block_size = 2;
 
 var isCar = true;
 var isReadyTeleport = false;
 
+// //// ///////// //
+
+
+// "Power On" //
+
 delorean.onload = draw;
 addEventListener("keydown", move);
 setInterval(spawn_Pancake, 50);
 
+// ////////// //
+
+
+// Functions //
 
 function draw() {
 	context.clearRect(0, 0, canvas.width, canvas.height);
@@ -134,3 +153,4 @@ function spawn_Pancake() {
 	draw();
 }
 
+// ///////// //
