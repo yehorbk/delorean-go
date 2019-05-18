@@ -1,0 +1,22 @@
+
+#canvas {
+	border: 2px solid #5ef38c; 
+	float: left;
+}
+
+#speed_count {
+	color: green;
+	font-size: 24px;
+	margin: 0;
+	padding: 0;
+	margin-left: 1040px;
+}
+
+#engine_ready {
+	color: red;
+	font-size: 24px;
+	margin: 0;
+	padding: 0;
+	margin-left: 1040px;
+	display: none;
+}
