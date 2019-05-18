@@ -57,7 +57,7 @@ var isReadyTeleport = false;
 
 delorean.onload = draw;
 addEventListener("keydown", move);
-setInterval(spawn_Pancake, 50);
+setInterval(world_animation, 50);
 
 // ////////// //
 
@@ -113,44 +113,56 @@ function move(e) {
 			break;
 		case 32:
 			if (isReadyTeleport) {
-				//player_posX += 250;
-				if (time == "80s") {
-					background.src = background_desert;
-					time = "Desert"
-				} else {
-					background.src = background_80s;
-					time = "80s"
-				}
-				
-				isReadyTeleport = false;
-				speed_count.style.color = "green";
-				car_speed = 0;
-				world_speed = 1;
-				player_posX = 200;
-				engine_ready.style.display = 'none';
+				changeTime();
 			}			
 		default:
 			// Default 
 			break;
 	}
 
-	if (car_speed >= 88) {
-		speed_count.style.color = "red";
-		isReadyTeleport = true;
-		engine_ready.style.display = 'block';
-	}
-
+	checkIsEngineReady();
 	draw();
 }
 
 
-function spawn_Pancake() {
-	/*pancake_posX = Math.random() * (window_width - 0) + 0;
-	pancake_posY = Math.random() * (window_height - 0) + 0;
-	console.log("Cake: " + pancake_posX + ";" + pancake_posY);
-	context.drawImage(pancake, pancake_posX, pancake_posY);*/
+function world_animation() {
 	background_posX -= world_speed;
 	draw();
 }
 
+function checkIsEngineReady() {
+	if (car_speed >= 88) {
+		speed_count.style.color = "red";
+		isReadyTeleport = true;
+		engine_ready.style.display = 'block';
+	} else if (car_speed < 88) {
+		isReadyTeleport = false;
+		speed_count.style.color = "green";
+		engine_ready.style.display = 'none';
+	}
+}
+
+function changeTime() {
+	if (time == "80s") {
+		background.src = background_desert;
+		time = "Desert"
+	} else {
+		background.src = background_80s;
+		time = "80s"
+	}
+	
+	isReadyTeleport = false;
+	car_speed = 0;
+	world_speed = 1;
+	player_posX = 200;
+
+	checkIsEngineReady();
+}
+
 // ///////// //
+
+
+/*pancake_posX = Math.random() * (window_width - 0) + 0;
+	pancake_posY = Math.random() * (window_height - 0) + 0;
+	console.log("Cake: " + pancake_posX + ";" + pancake_posY);
+	context.drawImage(pancake, pancake_posX, pancake_posY);*/
