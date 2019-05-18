@@ -56,7 +56,7 @@ var isReadyTeleport = false;
 // "Power On" //
 
 delorean.onload = draw;
-addEventListener("keydown", move);
+addEventListener("keydown", isKeyboardKeyPressed);
 setInterval(world_animation, 50);
 
 // ////////// //
@@ -64,52 +64,20 @@ setInterval(world_animation, 50);
 
 // Functions //
 
-function draw() {
-	context.clearRect(0, 0, canvas.width, canvas.height);
-	console.log(player_posX + ";" + player_posY);
-	context.drawImage(background, background_posX, 0);
-	context.drawImage(background, background_posX + background.width, 0);
-	context.drawImage(delorean, player_posX, player_posY); // TODO
-	speed_count.textContent = "Speed: " + car_speed;
-	if (background_posX < background.width * -1) {
-		background_posX = 0;
-	}
-}
-
-function move(e) {
+function isKeyboardKeyPressed(e) {
 
 	switch (e.keyCode) {
 		case 37:
-			if (player_posX - block_size >= 0 && car_speed >= 0) {
-				player_posX -= block_size;
-				car_speed -= 1;
-				world_speed -= 0.5;
-			}
+			changeSpeed(false);
 			break;
 		case 38:
-			if (player_posY - block_size >= 0) {
-				player_posY -= block_size;
-				if (isCar) {
-					delorean.src = delorean_plane_image;
-					isCar = false;
-				}
-			}
+			changeSpeed(true);
 			break;
 		case 39:
-			if (player_posX + block_size <= window_width - delorean.width && car_speed <= 143) {
-				player_posX += block_size;
-				car_speed += 1;
-				world_speed += 0.5;
-			}
+			changeSpeed(true);
 			break;
 		case 40:
-			if (player_posY + block_size <= window_height - delorean.height) {
-				player_posY += block_size;
-				if (!isCar && player_posY == 304) {
-					delorean.src = delorean_car_image;
-					isCar = true;
-				}
-			}
+			changeSpeed(false);
 			break;
 		case 32:
 			if (isReadyTeleport) {
@@ -124,6 +92,20 @@ function move(e) {
 	draw();
 }
 
+function draw() {
+	context.clearRect(0, 0, canvas.width, canvas.height);
+	context.drawImage(background, background_posX, 0);
+	context.drawImage(background, background_posX + background.width, 0);
+	context.drawImage(delorean, player_posX, player_posY);
+	speed_count.textContent = "Speed: " + car_speed;
+	
+	if (background_posX < background.width * -1) {
+		background_posX = 0;
+	}
+
+	// Debugging // 
+	console.log(player_posX + ";" + player_posY);
+}
 
 function world_animation() {
 	background_posX -= world_speed;
@@ -158,6 +140,44 @@ function changeTime() {
 
 	checkIsEngineReady();
 }
+
+function delorean_move(direction) {
+	if (direction) {
+		if (player_posY - block_size >= 0) {
+			player_posY -= block_size;
+			if (isCar) {
+				delorean.src = delorean_plane_image;
+				isCar = false;
+			}
+		}
+	} else {
+		if (player_posY + block_size <= window_height - delorean.height) {
+			player_posY += block_size;
+			if (!isCar && player_posY == 304) {
+				delorean.src = delorean_car_image;
+				isCar = true;
+			}
+		}
+	}
+}
+
+function changeSpeed(increase) {
+	if (increase) {
+		if (player_posX + block_size <= window_width - delorean.width && car_speed <= 143) {
+			player_posX += block_size;
+			car_speed += 1;
+			world_speed += 0.5;
+		}
+	} else {
+		if (player_posX - block_size >= 0 && car_speed >= 0) {
+			player_posX -= block_size;
+			car_speed -= 1;
+			world_speed -= 0.5;
+		}
+	}
+}
+
+
 
 // ///////// //
 
