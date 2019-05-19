@@ -7,6 +7,8 @@ var context = canvas.getContext("2d");
 var window_width = canvas.width;
 var window_height = canvas.height; 
 
+var animation = null;
+
 // /////////// ///////// //
 
 
@@ -18,7 +20,9 @@ var background_future = "assets/img/background_future.png";
 
 var delorean_car_image = "assets/img/delorean_car.png";
 var delorean_plane_image = "assets/img/delorean_plane.png";
+var delorean_car_teleport_image = "assets/img/delorean_car_teleport.png"
 
+var wheels_fire_image = "assets/img/wheels_fire_image.png"
 
 var soundtrack_80s = "assets/audio/soundtrack_80s.mp3";
 var soundtrack_desert = "assets/audio/soundtrack_desert.mp3";
@@ -34,6 +38,9 @@ background.src = background_80s;
 
 var delorean = new Image();
 delorean.src = delorean_car_image;
+
+var wheels_fire = new Image();
+wheels_fire.src = wheels_fire_image;
 
 var soundtrack = new Audio();
 soundtrack.src = soundtrack_80s;
@@ -84,7 +91,7 @@ var isReadyTeleport = false;
 
 delorean.onload = draw;
 addEventListener("keydown", isKeyboardKeyPressed);
-setInterval(world_animation, 1);
+beginAnimation();
 soundtrack.play();
 
 // ////////// //
@@ -117,7 +124,7 @@ function isKeyboardKeyPressed(e) {
 	}
 
 	checkIsEngineReady();
-	draw();
+	//draw();
 }
 
 function draw() {
@@ -140,6 +147,14 @@ function draw() {
 	//console.log(player_posX + ";" + player_posY);
 }
 
+function beginAnimation() {
+	animation = setInterval(world_animation, 1);
+}
+
+function stopAnimation() {
+	clearInterval(animation);
+}
+
 function world_animation() {
 	background_posX -= world_speed;
 	draw();
@@ -158,15 +173,28 @@ function checkIsEngineReady() {
 }
 
 function changeTime() {
-	background.src = getRandomLocation();
-	
-	isReadyTeleport = false;
-	car_speed = 2;
-	world_speed = ws_incrementor * 2;
-	player_posX = 200;
 
-	checkIsEngineReady();
-	addScore(1000);
+	delorean.src = delorean_car_teleport_image;
+	setTimeout(function() {
+		context.drawImage(background, background_posX + background.width, 0);
+		context.drawImage(wheels_fire, player_posX, 345);
+		stopAnimation();
+		setTimeout(function() {
+			beginAnimation();
+
+			background.src = getRandomLocation();
+			delorean.src = delorean_car_image;
+
+			isReadyTeleport = false;
+			car_speed = 2;
+			world_speed = ws_incrementor * 2;
+			player_posX = 200;
+
+			checkIsEngineReady();
+			addScore(1000);
+		}, 1000);
+	}, 1000);
+	
 }
 
 function delorean_move(direction) {
@@ -234,7 +262,6 @@ function addScore(count) {
 function getAllAchievements() {
 	alert("No, you can't.");
 }
-
 
 
 // ///////// //
