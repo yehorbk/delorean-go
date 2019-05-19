@@ -175,10 +175,25 @@ function checkIsEngineReady() {
 function changeTime() {
 
 	delorean.src = delorean_car_teleport_image;
+
+	var car_teleport_animation = null;
 	setTimeout(function() {
+		//stopAnimation();
+		//var temp = world_speed;
+		world_speed = 0;
+		car_teleport_animation = setInterval(function() {
+			//player_posX += temp;
+			player_posX += 10;
+		}, 1);
+	}, 500)
+
+	setTimeout(function() {
+		clearInterval(car_teleport_animation);
+		stopAnimation();
+
 		context.drawImage(background, background_posX + background.width, 0);
 		context.drawImage(wheels_fire, player_posX, 345);
-		stopAnimation();
+		
 		setTimeout(function() {
 			beginAnimation();
 
@@ -192,8 +207,8 @@ function changeTime() {
 
 			checkIsEngineReady();
 			addScore(1000);
-		}, 1000);
-	}, 1000);
+		}, 1500);
+	}, 650);
 	
 }
 
