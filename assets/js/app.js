@@ -27,6 +27,7 @@ var wheels_fire_image = "assets/img/wheels_fire_image.png"
 var soundtrack_80s = "assets/audio/soundtrack_80s.mp3";
 var soundtrack_desert = "assets/audio/soundtrack_desert.mp3";
 var soundtrack_future = "assets/audio/soundtrack_future.mp3";
+var engine_sound = "assets/audio/engine_sound.wav";
 
 // ////// //
 
@@ -44,6 +45,9 @@ wheels_fire.src = wheels_fire_image;
 
 var soundtrack = new Audio();
 soundtrack.src = soundtrack_80s;
+
+var car_sound = new Audio();
+car_sound.src = engine_sound;
 
 // /////////// //
 
@@ -92,7 +96,12 @@ var isReadyTeleport = false;
 delorean.onload = draw;
 addEventListener("keydown", isKeyboardKeyPressed);
 beginAnimation();
-soundtrack.play();
+//soundtrack.play();
+
+car_sound.loop = true;
+car_sound.playbackRate = 1;
+car_sound.play();
+
 
 // ////////// //
 
