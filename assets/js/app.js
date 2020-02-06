@@ -96,11 +96,11 @@ var isReadyTeleport = false;
 delorean.onload = draw;
 addEventListener("keydown", isKeyboardKeyPressed);
 beginAnimation();
-//soundtrack.play();
+soundtrack.play();
 
 car_sound.loop = true;
 car_sound.playbackRate = 1;
-car_sound.play();
+// car_sound.play();
 
 
 // ////////// //
