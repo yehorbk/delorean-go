@@ -10,4 +10,3 @@ Some models was redesigned by Author.
 
 # Author
 **Yehor Bublyk**: [GitHub](https://github.com/yehorbk) • [Twitter](https://twitter.com/yehorbk)
-
