@@ -1,52 +1,52 @@
 
 // Application Variables //
 
-var canvas = document.getElementById("canvas");
-var context = canvas.getContext("2d");
+const canvas = document.getElementById("canvas");
+const context = canvas.getContext("2d");
 
-var window_width = canvas.width;
-var window_height = canvas.height; 
+const window_width = canvas.width;
+const window_height = canvas.height; 
 
-var animation = null;
+let animation = null;
 
 // /////////// ///////// //
 
 
 // Models //
 
-var background_80s = "assets/img/background_80s.png";
-var background_desert = "assets/img/background_desert.png";
-var background_future = "assets/img/background_future.png";
+const background_80s = "assets/img/background_80s.png";
+const background_desert = "assets/img/background_desert.png";
+const background_future = "assets/img/background_future.png";
 
-var delorean_car_image = "assets/img/delorean_car.png";
-var delorean_plane_image = "assets/img/delorean_plane.png";
-var delorean_car_teleport_image = "assets/img/delorean_car_teleport.png"
+const delorean_car_image = "assets/img/delorean_car.png";
+const delorean_plane_image = "assets/img/delorean_plane.png";
+const delorean_car_teleport_image = "assets/img/delorean_car_teleport.png"
 
-var wheels_fire_image = "assets/img/wheels_fire_image.png"
+const wheels_fire_image = "assets/img/wheels_fire_image.png"
 
-var soundtrack_80s = "assets/audio/soundtrack_80s.mp3";
-var soundtrack_desert = "assets/audio/soundtrack_desert.mp3";
-var soundtrack_future = "assets/audio/soundtrack_future.mp3";
-var engine_sound = "assets/audio/engine_sound.wav";
+const soundtrack_80s = "assets/audio/soundtrack_80s.mp3";
+const soundtrack_desert = "assets/audio/soundtrack_desert.mp3";
+const soundtrack_future = "assets/audio/soundtrack_future.mp3";
+const engine_sound = "assets/audio/engine_sound.wav";
 
 // ////// //
 
 
 // Environment //
 
-var background = new Image();
+const background = new Image();
 background.src = background_80s;
 
-var delorean = new Image();
+const delorean = new Image();
 delorean.src = delorean_car_image;
 
-var wheels_fire = new Image();
+const wheels_fire = new Image();
 wheels_fire.src = wheels_fire_image;
 
-var soundtrack = new Audio();
+const soundtrack = new Audio();
 soundtrack.src = soundtrack_80s;
 
-var car_sound = new Audio();
+const car_sound = new Audio();
 car_sound.src = engine_sound;
 
 // /////////// //
@@ -54,7 +54,7 @@ car_sound.src = engine_sound;
 
 // Data Variables //
 
-var time_background_array = [
+const time_background_array = [
 	{ time: "80s", src: background_80s},
 	{ time: "Desert", src: background_desert},
 	{ time: "Future", src: background_future}
@@ -65,28 +65,28 @@ var time_background_array = [
 
 // Game Variables //
 
-var block_size = 2;
-var ground = 304
-var ws_incrementor = 0.04;
+const block_size = 2;
+const ground = 304
+const ws_incrementor = 0.04;
 
-var time = "80s";
+let time = "80s";
 
-var player_posX = 200;
-var player_posY = ground;
-var car_speed = 0;
-var score = 0;
-var score_dv = 0;
+let player_posX = 200;
+let player_posY = ground;
+let car_speed = 0;
+let score = 0;
+let score_dv = 0;
 
-var background_posX = 0;
-var world_speed = 0;
+let background_posX = 0;
+let world_speed = 0;
 
-var speed_count = document.getElementById("speed_count");
-var engine_ready = document.getElementById("engine_ready");
-var score_count = document.getElementById("score_count");
-var time_location = document.getElementById("time_location");
+const speed_count = document.getElementById("speed_count");
+const engine_ready = document.getElementById("engine_ready");
+const score_count = document.getElementById("score_count");
+const time_location = document.getElementById("time_location");
 
-var isCar = true;
-var isReadyTeleport = false;
+let isCar = true;
+let isReadyTeleport = false;
 
 // //// ///////// //
 
@@ -109,7 +109,6 @@ car_sound.playbackRate = 1;
 // Functions //
 
 function isKeyboardKeyPressed(e) {
-
 	switch (e.keyCode) {
 		case 37:
 			changeSpeed(false);
@@ -131,13 +130,10 @@ function isKeyboardKeyPressed(e) {
 			// Default 
 			break;
 	}
-
 	checkIsEngineReady();
-	//draw();
 }
 
 function draw() {
-
 	addScore(0);
 
 	context.clearRect(0, 0, canvas.width, canvas.height);
@@ -151,9 +147,6 @@ function draw() {
 	if (background_posX < background.width * -1) {
 		background_posX = 0;
 	}
-
-	// Debugging // 
-	//console.log(player_posX + ";" + player_posY);
 }
 
 function beginAnimation() {
@@ -182,43 +175,31 @@ function checkIsEngineReady() {
 }
 
 function changeTime() {
-
 	delorean.src = delorean_car_teleport_image;
-
-	var car_teleport_animation = null;
+	let car_teleport_animation = null;
 	setTimeout(function() {
-		//stopAnimation();
-		//var temp = world_speed;
 		world_speed = 0;
 		car_teleport_animation = setInterval(function() {
-			//player_posX += temp;
 			player_posX += 10;
 		}, 1);
 	}, 500)
-
 	setTimeout(function() {
 		clearInterval(car_teleport_animation);
 		stopAnimation();
-
 		context.drawImage(background, background_posX + background.width, 0);
 		context.drawImage(wheels_fire, player_posX, 345);
-		
 		setTimeout(function() {
 			beginAnimation();
-
 			background.src = getRandomLocation();
 			delorean.src = delorean_car_image;
-
 			isReadyTeleport = false;
 			car_speed = 2;
 			world_speed = ws_incrementor * 2;
 			player_posX = 200;
-
 			checkIsEngineReady();
 			addScore(1000);
 		}, 1500);
 	}, 650);
-	
 }
 
 function delorean_move(direction) {
@@ -260,7 +241,7 @@ function changeSpeed(increase) {
 }
 
 function getRandomLocation() {
-	var randomTimeValue = 0;
+	let randomTimeValue = 0;
 	do {
 		randomTimeValue = Math.floor(Math.random() * (time_background_array.length - 0) + 0);
 	} while (time == time_background_array[randomTimeValue].time);
@@ -270,13 +251,11 @@ function getRandomLocation() {
 }
 
 function addScore(count) {
-
 	if (count == 0) {
 		score_dv += car_speed / 1000;
 	} else {
 		score += count;
 	}
-
 	if (score_dv > 1) {
 		score += Math.floor(score_dv);
 		score_dv = 0;
@@ -286,35 +265,3 @@ function addScore(count) {
 function getAllAchievements() {
 	alert("No, you can't.");
 }
-
-
-// ///////// //
-
-	/*if (time == "80s") {
-		background.src = background_desert;
-		time = "Desert"
-	} else {
-		background.src = background_80s;
-		time = "80s"
-	}*/
-
-//time = time_background_array.keys(randomTimeValue);
-
-//alert(randomTimeValue + ": " + background.src + " " + time_background_array[randomTimeValue]);
-/*pancake_posX = Math.random() * (window_width - 0) + 0;
-	pancake_posY = Math.random() * (window_height - 0) + 0;
-	console.log("Cake: " + pancake_posX + ";" + pancake_posY);
-	context.drawImage(pancake, pancake_posX, pancake_posY);*/
-
-	/*var time_background_array = [
-	background_80s,
-	background_desert,
-	background_future
-];*/
-
-
-/*
- Previous Version
- FPS: 50ms
- world_speed: 0.5
-*/
